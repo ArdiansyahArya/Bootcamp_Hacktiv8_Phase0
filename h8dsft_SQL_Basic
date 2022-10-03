@@ -1,23 +1,52 @@
 -- query untuk melihat tabel bikeshare_trips
+
 select *
 from `bigquery-public-data.san_francisco.bikeshare_trips`
 limit 10;
 
 -- query untuk melihat tabel bikeshare_stations
+
 select *
 from `bigquery-public-data.san_francisco.bikeshare_stations`
 limit 10;
 
 -- diperoleh primary_key yang dapat dihubungkan antara 2 tabel tersebut melewati start_station_id pada tabel bikeshare_trips dan station_id pada tabel bikeshare_stations
+-- query untuk melihat apakah primary key yang digunakan benar atau tidak
+
+select *
+from `bigquery-public-data.san_francisco.bikeshare_trips` a
+inner join `bigquery-public-data.san_francisco.bikeshare_stations` b
+on a.start_station_id=b.station_id
+limit 10;
+
 -- dilakukan query untuk peminjaman kuartil 1 menggunakan kondisi batasan yang dibutuhkan
-select count(*) Jumlah_Peminjaman_Sepeda_pada_Q1
+
+select 
+a.trip_id, 
+a.start_date, 
+a.subscriber_type, 
+a.start_station_name, 
+a.start_station_name, 
+b.station_id, 
+b.name, 
+b.landmark
 from `bigquery-public-data.san_francisco.bikeshare_trips` a
 inner join `bigquery-public-data.san_francisco.bikeshare_stations` b
 on a.start_station_id=b.station_id
 where a.subscriber_type='Subscriber' and 
 b.landmark='Redwood City' and a.start_date between '2016-01-01 00:00:00' and '2016-03-31 23:59:59';
+
 -- query untuk peminjaman kuartil 2 menggunakan kondisi batasan yang dibutuhkan
-select count(*) Jumlah_Peminjaman_Sepeda_pada_Q2
+
+select 
+a.trip_id, 
+a.start_date, 
+a.subscriber_type, 
+a.start_station_name, 
+a.start_station_name, 
+b.station_id, 
+b.name, 
+b.landmark
 from `bigquery-public-data.san_francisco.bikeshare_trips` a
 inner join `bigquery-public-data.san_francisco.bikeshare_stations` b
 on a.start_station_id=b.station_id
@@ -26,7 +55,8 @@ b.landmark='Redwood City' and a.start_date between '2016-04-01 00:00:00' and '20
 
 -- diperoleh bahwa peminjaman sepeda lebih banyak terjadi di kuartil 1 untuk stasiun Redwood City
 
--- melakukan query yang menampilkan jumlah data yang terdapat di masing masing kuartil
+--melakukan query yang menampilkan jumlah data yang terdapat di masing masing kuartil
+
 select count(*) Jumlah_Peminjaman_Sepeda_pada_Q1
 from `bigquery-public-data.san_francisco.bikeshare_trips` a
 inner join `bigquery-public-data.san_francisco.bikeshare_stations` b
